@@ -54,6 +54,26 @@ Sync App
 ```
 argocd app sync calculator
 ```
+Set automatic sync
+```
+argocd app set calculator --sync-policy automated
+```
+## Deploy with helm
+```
+brew install heml
+helm create calculator-chart
+helm install calculator ./calculator-chart
+```
+Uninstall a helm chart and register it with Argo CD
+```
+helm uninstall calculator
+argocd app create calculator \
+  --repo https://github.com/hugh-nguyen/calculator.git \
+  --path calculator-chart \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace default 
+```
+TODO: helm chart repository?
 ## Useful commands 
 delete all pods
 ```

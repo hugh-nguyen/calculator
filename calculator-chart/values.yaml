@@ -1,0 +1,21 @@
+replicaCount: 2
+
+backend:
+  name: calculator-backend
+  image: hughnguyen/calculator-backend:latest
+  service:
+    name: calculator-backend-service
+    type: ClusterIP
+    port: 8080
+
+frontend:
+  name: calculator-frontend
+  image: hughnguyen/calculator-frontend:latest
+  service:
+    name: calculator-frontend-service
+    type: NodePort
+    port: 80
+    nodePort: 31111
+  env:
+    - name: REACT_APP_BACKEND_URL
+      value: "http://calculator-backend-service:8080"
