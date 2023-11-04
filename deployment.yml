@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator-backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: calculator-backend
+  template:
+    metadata:
+      labels:
+        app: calculator-backend
+    spec:
+      containers:
+      - name: calculator-backend
+        image: hughnguyen/calculator-backend:latest
+        ports:
+        - containerPort: 8080
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator-frontend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: calculator-frontend
+  template:
+    metadata:
+      labels:
+        app: calculator-frontend
+    spec:
+      containers:
+      - name: calculator-frontend
+        image: hughnguyen/calculator-frontend:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: REACT_APP_BACKEND_URL
+          value: "http://calculator-backend-service:8080"

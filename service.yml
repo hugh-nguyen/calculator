@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculator-backend-service
+spec:
+  selector:
+    app: calculator-backend
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculator-frontend-service
+spec:
+  selector:
+    app: calculator-frontend
+  type: NodePort  # Use LoadBalancer if on cloud or Ingress if configured
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 31111  # Optional: Kubernetes will assign one if not specified
