@@ -1,0 +1,14 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: free-tier-cluster
+  region: ap-southeast-2 # or your desired region
+
+nodeGroups:
+  - name: ng-free-tier
+    minSize: 1
+    maxSize: 3
+    desiredCapacity: 3
+    instanceType: t3.small # or t3.micro for free tier
+    volumeSize: 20 # Smallest volume size to keep costs down

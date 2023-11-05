@@ -21,8 +21,8 @@ docker push hughnguyen/calculator-backend:latest
 ## Run locally with minikube 
 ```
 minikube start
-kubectl apply -f deployment.yml
-kubectl apply -f service.yml
+kubectl apply -f manifests/deployment.yml
+kubectl apply -f manifests/service.yml
 kubectl port-forward svc/calculator-frontend-service 8081:80
 kubectl port-forward svc/calculator-backend-service 8080:8080
 ```
@@ -42,7 +42,7 @@ argocd admin initial-password -n argocd
 ```
 Register App
 ```
-argocd login localhost:8082 --username admin --password XXXX --insecure
+argocd login localhost:8082 --username admin --password XXX --insecure
 argocd app create calculator \
   --repo https://github.com/hugh-nguyen/calculator.git \
   --path manifests \
@@ -74,6 +74,15 @@ argocd app create calculator \
   --dest-namespace default 
 ```
 TODO: helm chart repository?
+
+## EKS
+```
+brew install eksctl
+eksctl create cluster -f cluster.yaml
+aws eks update-kubeconfig --region ap-southeast-2 --name free-tier-cluster # switches context
+
+```
+
 ## Useful commands 
 delete all pods
 ```
@@ -100,4 +109,8 @@ port forward
 ```
 kubectl port-forward svc/calculator-frontend-service 8081:80
 kubectl port-forward svc/calculator-backend-service 8080:8080
+```
+delete cluster
+```
+eksctl delete cluster --region=ap-southeast-2 --name=free-tier-cluster
 ```
