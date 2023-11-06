@@ -79,8 +79,23 @@ TODO: helm chart repository?
 ```
 brew install eksctl
 eksctl create cluster -f cluster.yaml
-aws eks update-kubeconfig --region ap-southeast-2 --name free-tier-cluster # switches context
+aws eks update-kubeconfig --region ap-southeast-2 --name free-tier-cluste
+```
+asset setup
+```
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl port-forward svc/argocd-server -n argocd 8082:443
 
+argocd admin initial-password -n argocd
+argocd login localhost:8082 --username admin --password XXX --insecure
+argocd app create calculator \
+  --repo https://github.com/hugh-nguyen/calculator.git \
+  --path calculator-chart \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace default 
+
+# go to https://localhost:8082/ and sync
 ```
 
 ## Useful commands 
